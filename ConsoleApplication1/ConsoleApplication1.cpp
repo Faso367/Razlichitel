@@ -89,11 +89,11 @@ int main() {
 
 	setlocale(LC_ALL, "Russian");
 
-	uint max = 0;
-	uint min = 4000000000;
+	//uint max = 0;
+	//uint min = 4000000000;
 	double summa = 0;
-	uint kol_vizovov = 100;
-	uint kol_checks = 100;
+	uint kol_vizovov = 1000;
+	uint kol_checks = 1000;
 
 	std::cout << "Пусть Вероятность это вероятность того," <<
     "что длина выхода из RO отличается от длины выхода из PRF : \n---------------------" << endl;
@@ -111,11 +111,11 @@ int main() {
 			uint randomNumber = rand()%1024;
 			uint result = PRF(randomNumber);
 
-			if (max < result)
-				max = result;
+			//if (max < result)
+			//	max = result;
 
-			if (min > result)
-				min = result;
+			//if (min > result)
+			//	min = result;
 
 			RO* d = new RO();
 			uint z = d->GRU();
