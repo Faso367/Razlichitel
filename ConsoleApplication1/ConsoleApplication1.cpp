@@ -1,28 +1,27 @@
 ﻿// ConsoleApplication1.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 //
 
-#include <iostream>
-using namespace std;
 //#include "RO.h"
 
-#pragma once
+// #pragma once
 
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <cmath>
-#include <stdio.h>
-#include<unordered_set>
+#include <unordered_set>
+#include <vector>
 
 
-using namespace std;
+// using namespace std;
 using uint = uint32_t;
 
 
 class RO
 {
 public:
-	vector<uint> requests;
-	vector<uint> responces;
+	std::vector<uint> requests;
+	std::vector<uint> responces;
 	RO() {
 		requests.resize(0);
 		responces.resize(0);
@@ -96,7 +95,7 @@ int main() {
 	uint kol_checks = 1000;
 
 	std::cout << "Пусть Вероятность это вероятность того," <<
-    "что длина выхода из RO отличается от длины выхода из PRF : \n---------------------" << endl;
+    "что длина выхода из RO отличается от длины выхода из PRF : \n---------------------" << std::endl;
 
 	srand(time(0));
 	for (int j = 0; j < kol_checks; j++) {
@@ -121,7 +120,7 @@ int main() {
 			uint z = d->GRU();
 
 
-			if (size(to_string(z)) < size(to_string(result)))
+			if (std::size(std::to_string(z)) < std::size(std::to_string(result)))
 				count++;
 
 		}
@@ -129,7 +128,7 @@ int main() {
 		double ratio = static_cast<double>(static_cast<double>(count) / static_cast<double>(kol_vizovov));
 		summa += ratio;
 
-		std::cout << "Вероятность: " << ratio << endl;
+		std::cout << "Вероятность: " << ratio << std::endl;
 		
 	}
 
