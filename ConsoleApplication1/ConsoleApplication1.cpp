@@ -46,7 +46,7 @@ public:
 	};
 
 	uint MyRand(uint min, uint max) {
-		return min + (rand() % static_cast<int>(max - min + 1));
+		return min + (rand() % static_cast<uint>(max - min + 1));
 	};
 
 	uint work(uint x);
@@ -70,10 +70,10 @@ uint RO::work(uint x) {
 unsigned int PRF(unsigned int x) {
 	unsigned int y;
 
-	const unsigned int A = 0x1234b123;
-	const unsigned int B = 0x712a7b96;
-	const unsigned int C = 0x7518ad81;
-	const unsigned int key = 0x7518abc8;
+	uint A = 0x1234b123;
+	uint B = 0x712a7b96;
+	uint C = 0x7518ad81;
+	uint key = 0x7518abc8;
 
 	for (int i = 0; i < 4; i++) {
 		//y = (key * (x + A) >> i) + (((key ^ C) + B >> 20) + x + 91750) * (i * C + A >> 16);
@@ -87,23 +87,36 @@ unsigned int PRF(unsigned int x) {
 
 int main() {
 
-	unsigned int max = 0;
-	unsigned int min = 4000000000;
+	setlocale(LC_ALL, "Russian");
 
-	for (int j = 0; j < 20; j++) {
+	uint max = 0;
+	uint min = 4000000000;
+	double summa = 0;
+	uint kol_vizovov = 100;
+	uint kol_checks = 100;
+
+	std::cout << "Пусть Вероятность это вероятность того," <<
+    "что длина выхода из RO отличается от длины выхода из PRF : \n---------------------" << endl;
+
+	srand(time(0));
+	for (int j = 0; j < kol_checks; j++) {
 
 		uint count = 0;
-		uint kol_vizovov = 0;
 		uint min_i = 0;
 
-		for (unsigned int i = 0; i < 300; i += 1) {
+		
+		for (uint i = 0; i < kol_vizovov; i ++) {
 
-			unsigned int result = PRF(i);
+			
+			uint randomNumber = rand()%1024;
+			uint result = PRF(randomNumber);
+
 			if (max < result)
 				max = result;
 
 			if (min > result)
 				min = result;
+
 			RO* d = new RO();
 			uint z = d->GRU();
 
@@ -111,10 +124,15 @@ int main() {
 			if (size(to_string(z)) < size(to_string(result)))
 				count++;
 
-			kol_vizovov++;
-
-			d->~RO();
 		}
-		std::cout << "Middle:" << static_cast<double>(static_cast<double>(count) / static_cast<double>(kol_vizovov)) << endl;
+
+		double ratio = static_cast<double>(static_cast<double>(count) / static_cast<double>(kol_vizovov));
+		summa += ratio;
+
+		std::cout << "Вероятность: " << ratio << endl;
+		
 	}
+
+	std::cout << "Средняя вероятность того, что длина выхода" <<
+		"из RO отличается от длины выхода из PRF : " << static_cast<double>(static_cast<double>(summa) / static_cast<double>(kol_checks));
 }
